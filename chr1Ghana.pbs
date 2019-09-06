@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#PBS -N chr1Ghana
+### Select the shell you would like the script to execute within
+#PBS -S /bin/bash
+### Inform the scheduler of the expect run time
+#PBS -l walltime=99:00:00
+### Inform the scheduler of the number of CPU cores for your job
+#PBS -l nodes=5:ppn=5
+### Inform the scheduler of the amount of memory for  your job
+#PBS -l mem=5gb
+### Set the destination for output
+#PBS -o ${PBS_JOBNAME}.o${PBS_JOBID}
+#PBS -e ${PBS_JOBNAME}.e${PBS_JOBID}
+###
+
+module load gcc/6.2.0
+module load perl
+module load vcftools
+module load gtool
+
+pathA=/gpfs/data/huo-lab/BCAC/Ghana
+pathB=/gpfs/data/huo-lab/BCAC/DataCombined/Ghana/intermediate
+pathC=/gpfs/data/huo-lab/BCAC/DataCombined/Ghana/codes
+pathD=/gpfs/data/huo-lab/BCAC/DataCombined/Ghana
+
+gtool -S --g $pathB/ghana.FormattedChr1MAF005.gen.gz --s $pathB/ghanaChr1MAF005.gen.samples --og $pathD/Ghana.MAF005Info7.chr1.gen.gz --os $pathD/Ghana.MAF005Info7.ch1.sample.gz --inclusion $pathB/chr1Ghana.list
+
+ 

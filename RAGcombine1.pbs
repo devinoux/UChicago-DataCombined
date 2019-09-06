@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#PBS -N RAGchr1
+### Select the shell you would like the script to execute within
+#PBS -S /bin/bash
+### Inform the scheduler of the expect run time
+#PBS -l walltime=99:00:00
+### Inform the scheduler of the number of CPU cores for your job
+#PBS -l nodes=5:ppn=5
+### Inform the scheduler of the amount of memory for  your job
+#PBS -l mem=8gb
+### Set the destination for output
+#PBS -o ${PBS_JOBNAME}.o${PBS_JOBID}
+#PBS -e ${PBS_JOBNAME}.e${PBS_JOBID}
+###
+
+module load gcc/6.2.0
+
+pathB=/gpfs/data/huo-lab/BCAC/DataCombined/Ghana
+pathC=/gpfs/data/huo-lab/BCAC/DataCombined/Root_Amber
+pathD=/gpfs/data/huo-lab/BCAC/DataCombined/Root_Amber_Ghana 
+
+join -1 2 -2 2 <(zcat $pathC/Root_Amber.MAF005R07.chr1.gen.gz | sort -k 2) <(zcat $pathB/Ghana.MAF005Info7.chr1.gen.gz | sort -k 2 ) | gzip > $pathD/Root_Amber_Ghana.MAF005Info7.chr1.gen.gz 
+zcat $pathD/Root_Amber_Ghana.MAF005Info7.chr1.gen.gz | wc >> $pathD/RAGchr1.log 
+
+
+
