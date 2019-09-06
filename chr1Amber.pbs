@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#PBS -N chr1
+### Select the shell you would like the script to execute within
+#PBS -S /bin/bash
+### Inform the scheduler of the expect run time
+#PBS -l walltime=99:00:00
+### Inform the scheduler of the number of CPU cores for your job
+#PBS -l nodes=5:ppn=5
+### Inform the scheduler of the amount of memory for  your job
+#PBS -l mem=5gb
+### Set the destination for output
+#PBS -o ${PBS_JOBNAME}.o${PBS_JOBID}
+#PBS -e ${PBS_JOBNAME}.e${PBS_JOBID}
+###
+
+module load gcc/6.2.0
+module load python 
+module load gtool
+
+pathA=/gpfs/data/huo-lab/BCAC/Amber/Imputed
+pathB=/gpfs/data/huo-lab/BCAC/DataCombined/Amber
+pathC=/gpfs/data/huo-lab/BCAC/DataCombined/Amber/codes
+
+python $pathC/chr1.py
+
+gtool -S --g $pathB/Tmp.chr1.gen.gz --s $pathB/Amber_chr1_22.sample --og $pathB/Amber.MAF005Info7.chr1.gen.gz --os $pathB/Amber.MAF005Info7.chr1.sample.gz --sample_id $pathB/List_Amber_n3815.txt
+

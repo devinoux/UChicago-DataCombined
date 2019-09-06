@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#PBS -N Poolchr23
+### Select the shell you would like the script to execute within
+#PBS -S /bin/bash
+### Inform the scheduler of the expect run time
+#PBS -l walltime=99:00:00
+### Inform the scheduler of the number of CPU cores for your job
+#PBS -l nodes=5:ppn=5
+### Inform the scheduler of the amount of memory for  your job
+#PBS -l mem=5gb
+### Set the destination for output
+#PBS -o ${PBS_JOBNAME}.o${PBS_JOBID}
+#PBS -e ${PBS_JOBNAME}.e${PBS_JOBID}
+###
+
+module load gcc/6.2.0
+
+pathD=/gpfs/data/huo-lab/BCAC/DataCombined/Amber 
+
+cd $pathD
+
+gzip -d Amber.MAF005Info7.chrXPar1.gen.gz
+gzip -d Amber.MAF005Info7.chrXpar2.gen.gz
+gzip -d Amber.MAF005Info7.chrX.gen.gz
+gzip -d Amber.MAF005Info7.chrX.metrics.gz
+gzip -d Amber.MAF005Info7.chrXPar1.metrics.gz
+gzip -d Amber.MAF005Info7.chrXPar2.metrics.gz
+
+sed '1d' Amber.MAF005Info7.chrX.metrics > X.info
+sed '1d' Amber.MAF005Info7.chrXPar2.metrics > XPar2.info 
+
+cat Amber.MAF005Info7.chrXPar1.metrics X.info XPar2.info Amber.MAF005Info7.chr23.metrics
+gzip Amber.MAF005Info7.chr23.metrics
+
+cat Amber.MAF005Info7.chrXPar1.gen Amber.MAF005Info7.chrX.gen Amber.MAF005Info7.chrXpar2.gen > Amber.MAF005Info7.chr23.gen
+gzip Amber.MAF005Info7.chr23.gen
+
+mv Amber.MAF005Info7.chrX.sample.gz Amber.MAF005Info7.chr23.sample.gz
+
