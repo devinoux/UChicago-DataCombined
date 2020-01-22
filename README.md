@@ -15,3 +15,5 @@ rootRselection_chr1.R is an R script used to filter the Root dataset, much faste
 ghanaRselectionUpdated.R does the same thing but for Ghana dataset. Filters the info file and used gtool to cut rows in the .gen files.
 
 ghanaSampleExcelConvert.R formatted the phenotype (.sample) ghana file.
+
+contact me at jerryx224j@gmail.com for any questions :)
